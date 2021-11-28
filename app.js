@@ -8,18 +8,23 @@ const dotenv = require('dotenv');
 const passport = require('passport');
 
 dotenv.config();
-const pageRouter = require('./routes/page');
-// const authRouter = require('./routes/auth');
-// const postRouter = require('./routes/post');
+const accountRouter = require('./routes/account');
+const authRouter = require('./routes/auth');
+const editRouter = require('./routes/edit');
+const followRouter = require('./routes/follow');
+const homeRouter = require('./routes/home');
+const indexRouter = require('./routes/index');
+const msgRouter = require('./routes/msg');
+const newRouter = require('./routes/new');
+const profileRouter = require('./routes/profile');
 
-// const userRouter = require('./routes/user');
 const { sequelize } = require('./models');
 
 const app = express();
 
-// const passportConfig = require('./passport');
-// passportConfig();
-//
+const passportConfig = require('./passport');
+passportConfig();
+
 app.set('port', process.env.PORT || 10016);
 app.set('view engine', 'html');
 nunjucks.configure('views', {
@@ -53,14 +58,15 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use('/', pageRouter);
-// app.use('/auth', authRouter);
-// app.use('/post', postRouter);
-// app.use('/user', userRouter);
-//
-// app.get('', (req, res, next) => {
-//     res.sendFile(__dirname + 'views/main.html')
-// });
+app.use('/', indexRouter);
+app.use('/account', accountRouter);
+app.use('/auth', authRouter);
+app.use('/follow', followRouter);
+app.use('/home', homeRouter);
+app.use('/msg', msgRouter);
+app.use('/new', newRouter);
+app.use('/edit', editRouter);
+app.use('/profile', profileRouter);
 
 app.use((req, res, next) => {
   const error =  new Error(`${req.method} ${req.url} 라우터가 없습니다.`);

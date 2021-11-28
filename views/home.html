@@ -1,0 +1,76 @@
+{% extends 'layout.html' %}
+
+{% block script %}
+{% endblock %}
+
+{% block content %}
+    <div id="menu">
+        <div class="text-center">
+                <a href="/home" class="btn btn-rounded btn-default btn-sm"><i class="fa fa-plus"></i>Home</a>
+                <a href="/new" class="btn btn-rounded btn-default btn-sm"><i class="fa fa-plus"></i>Upload</a>
+                <a href="/profile" class="btn btn-rounded btn-default btn-sm"><i class="fa fa-plus"></i>Profile</a>
+                <a href="/follow" class="btn btn-rounded btn-default btn-sm"><i class="fa fa-plus"></i>Follow</a>
+                <a href="/msg" class="btn btn-rounded btn-default btn-sm"><i class="fa fa-plus"></i>Message</a>
+                <a href="/auth/logout" class="btn btn-rounded btn-default btn-sm"><i class="fa fa-plus"></i>Logout</a>
+        </div>
+    </div>
+    {# Reference: https://www.bootdey.com/snippets/view/gallery-with-small-images  #}
+    <div class="col-md-30">
+        <div class="row">
+            {% if posts %}
+                <div class="col-md-9">
+                    <ul class="gallery-list">
+                        {% for post in posts %}
+                            <li>
+                                <div class="image-container">
+                                    <div class="image">
+                                        <img width="300px" src="{{post['image'][0]}}" alt="">
+                                    </div>
+                                    <div class="info">
+                                        <a href="/home?search_method=exact&search_type=user&search_keyword={{post.user}}">{{post.user}}</a>
+                                        <small class="text-muted">{{post.date}}</small>
+                                        <br>
+                                        {% for token in post['text'] %}
+                                            {% if token[0] == "#" %}
+                                                <a href="/home?search_method=exact&search_type=hashtag&search_keyword={{token.slice(1)}}">{{token}}</a>
+                                            {% else %}
+                                                {{token}}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+            <div class="col-md-3">
+                <!-- begin panel -->
+                <div class="panel p-20">
+                    <h5 class="m-t-0">Search</h5>
+                    <form id="search-form" class="form-input-flat">
+                        <div class="form-group m-b-15">
+                            <input type="hidden" name="search_method" value="like">
+                            <input id="radio_text" type="radio" name="search_type" value="text" checked>
+                            <label for="radio_text">Text</label>
+                            <input id="radio_user" type="radio" name="search_type" value="user">
+                            <label for="radio_user">User</label>
+                            <input id="radio_hashtag" type="radio" name="search_type" value="hashtag">
+                            <label for="radio_hashtag">Hashtag</label>
+                            </select>
+                        </div>
+                        <div class="input-group m-b-15">
+                            <input type="text" class="form-control" name="search_keyword" placeholder="Enter keywords...">
+                            <div class="input-group-btn">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="horizontal-divider m-0 m-b-15"></div>
+                </div>
+                <!-- end panel -->
+            </div>
+        </div>
+    </div>
+    </script>
+{% endblock %}

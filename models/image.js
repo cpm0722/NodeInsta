@@ -8,6 +8,10 @@ module.exports = class Image extends Sequelize.Model {
                 allowNull: false,
                 unique: true,
             },
+            index: {
+                type: Sequelize.INTEGER,
+                allowNull: false
+            },
         }, {
             sequelize,
             timestamps: true,
