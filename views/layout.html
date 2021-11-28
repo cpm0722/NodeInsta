@@ -1,35 +1,35 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{{title}}</title>
-        <meta name="viewport" content="width=device-width, user-scalable=no">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
-        <link rel="stylesheet" href="/main.css">
-	    <link rel="stylesheet" href="/gallery.css">
-	    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
-	    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    </head>
-    <body>
-        {% block script %}
-        {% endblock %}
-        <div class="container">
-            {% block content %}
-            {% endblock %}
-            <footer>
-                Made by&nbsp;
-                <a href="https://github.com/cpm0722" target="_blank">Hansu Kim</a>
-            </footer>
-        </div>
-        <script>
-            window.onload = () => {
-                if (new URL(location.href).searchParams.get('loginError')) {
-                    alert(new URL(location.href).searchParams.get('loginError'));
-                }
-            };
-        </script>
-    </body>
+  <head>
+    <meta charset="UTF-8">
+    <title>{{title}}</title>
+    <meta name="viewport" content="width=device-width, user-scalable=no">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/main.css">
+	  <link rel="stylesheet" href="/gallery.css">
+	  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+	  <script src="https://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  </head>
+  <body>
+    {% block script %}
+    {% endblock %}
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+      <footer>
+        Made by&nbsp;
+        <a href="https://github.com/cpm0722" target="_blank">Hansu Kim</a>
+      </footer>
+    </div>
+    <script>
+      window.onload = () => {
+        if (new URL(location.href).searchParams.get('loginError')) {
+          alert(new URL(location.href).searchParams.get('loginError'));
+        }
+      };
+    </script>
+  </body>
 </html>

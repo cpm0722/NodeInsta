@@ -4,38 +4,38 @@
 {% endblock %}
 
 {% block content %}
-    <form id="new-form" action="/new/upload", method="post", onsubmit=upload_contents() enctype="multipart/form-data">
-        <div>
-            <textarea id="text-content" maxlength="140"></textarea>
-        </div>
-        <div>
-            <input id="img-content" type="file" multiple accept="image/*">
-        </div>
-        <div>
-            <button id="upload-btn" type="submit" class="btn">Upload</button>
-        </div>
-    </form>
-    <script>  // disable default event of #new-form
-        function preventEvent(event) { event.preventDefault(); }
-        document.getElementById("new-form").addEventListener("submit", preventEvent);
-    </script>
-    <script>
-        // #new-form's submit event function
-        upload_contents = function() {
-            let formData = new FormData();
-            formData.append('text-content', document.getElementById("text-content").value);
-            let files = document.getElementById("img-content").files;
-            let len = files.length > 5 ? 5 : files.length;
-            for (let i = 0; i < len; i++) {
-                formData.append('img-content', files[i]);
-            }
-            axios.post("/new/upload", formData)
-                .then(res => {
-                    window.location.href="/home";
-                })
-                .catch(err => {
-                    console.error(err);
-                });
-        };
-    </script>
+  <form id="new-form" action="/new/upload", method="post", onsubmit=upload_contents() enctype="multipart/form-data">
+    <div>
+      <textarea id="text-content" maxlength="140"></textarea>
+    </div>
+    <div>
+      <input id="img-content" type="file" multiple accept="image/*">
+    </div>
+    <div>
+      <button id="upload-btn" type="submit" class="btn">Upload</button>
+    </div>
+  </form>
+  <script>  // disable default event of #new-form
+    function preventEvent(event) { event.preventDefault(); }
+    document.getElementById("new-form").addEventListener("submit", preventEvent);
+  </script>
+  <script>
+    // #new-form's submit event function
+    upload_contents = function() {
+      let formData = new FormData();
+      formData.append('text-content', document.getElementById("text-content").value);
+      let files = document.getElementById("img-content").files;
+      let len = files.length > 5 ? 5 : files.length;
+      for (let i = 0; i < len; i++) {
+        formData.append('img-content', files[i]);
+      }
+      axios.post("/new/upload", formData)
+        .then(res => {
+          window.location.href="/home";
+        })
+        .catch(err => {
+          console.error(err);
+        });
+    };
+  </script>
 {% endblock %}

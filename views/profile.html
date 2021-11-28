@@ -1,54 +1,54 @@
 {% extends 'layout.html' %}
 
 {% block script %}
-    <script>
-        function showClock() {
-            let currentDate = new Date();
-            let divClock = document.getElementById('divClock');
-            let msg = "현재 시각: ";
-            if (currentDate.getHours()> 12) {
-                msg += "오후 " + (currentDate.getHours() - 12) + "시 ";
-            } else {
-                msg += "오전 " + currentDate.getHours() + "시 ";
-            }
-            msg += currentDate.getMinutes() + "분 " + currentDate.getSeconds() + "초";
-            divClock.innerText = msg;
-            setTimeout(showClock, 1000);
-        }
-    </script>
+  <script>
+    function showClock() {
+      let currentDate = new Date();
+      let divClock = document.getElementById('divClock');
+      let msg = "현재 시각: ";
+      if (currentDate.getHours()> 12) {
+        msg += "오후 " + (currentDate.getHours() - 12) + "시 ";
+      } else {
+        msg += "오전 " + currentDate.getHours() + "시 ";
+      }
+      msg += currentDate.getMinutes() + "분 " + currentDate.getSeconds() + "초";
+      divClock.innerText = msg;
+      setTimeout(showClock, 1000);
+    }
+  </script>
 {% endblock %}
 
 {% block content %}
-    <div class="profile-wrap">
-        <div class="user-name">{{'안녕하세요 ' + user.nick + '님'}}</div>
-            <div class="half">
-                <div>팔로잉</div>
-                <div class="count following-count">{{followingCount}}</div>
-            </div>
-            <div class="half">
-                <div>팔로워</div>
-                <div class="count follower-count">{{followerCount}}</div>
-            </div>
-            <div class="timeline">
-                <div class="half">
-                    <div>팔로잉 목록</div>
-                    {% if followings %}
-                        {% for following in followings %}
-                            <div>{{following.nick}}</div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-                <div class="half">
-                    <div>팔로워 목록</div>
-                    {% if followers %}
-                        {% for follower in followers %}
-                            <div>{{follower.nick}}</div>
-                        {% endfor %}
-                    {% endif %}
-                </div>
-            </div>
-            <div id="divClock" class="clock">현재 시각: </div>
-            <script> showClock(); </script>
+  <div class="profile-wrap">
+    <div class="user-name">{{'안녕하세요 ' + user.nick + '님'}}</div>
+      <div class="half">
+        <div>팔로잉</div>
+        <div class="count following-count">{{followingCount}}</div>
+      </div>
+      <div class="half">
+        <div>팔로워</div>
+        <div class="count follower-count">{{followerCount}}</div>
+      </div>
+      <div class="timeline">
+        <div class="half">
+          <div>팔로잉 목록</div>
+          {% if followings %}
+            {% for following in followings %}
+              <div>{{following.nick}}</div>
+            {% endfor %}
+          {% endif %}
         </div>
+        <div class="half">
+          <div>팔로워 목록</div>
+          {% if followers %}
+            {% for follower in followers %}
+              <div>{{follower.nick}}</div>
+            {% endfor %}
+          {% endif %}
+        </div>
+      </div>
+      <div id="divClock" class="clock">현재 시각: </div>
+      <script> showClock(); </script>
     </div>
+  </div>
 {% endblock %}

@@ -8,9 +8,9 @@ const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
 const router = express.Router();
 
 router.get('/', (req, res, next) => {
-    res.render('edit', {
-        title: 'edit post',
-    });
+  res.render('edit', {
+    title: 'edit post',
+  });
 });
 
 module.exports = router;
