@@ -4,4 +4,30 @@
 {% endblock %}
 
 {% block content %}
+    {% for u in users %}
+        <div>
+            <h5>{{ u.nick }}</h5>
+            <small>{{ u.name }}</small>
+            <small>{{ u.email }}</small>
+            <br>
+            {% if u.following %}
+                <button id="btn_follow" value={{u.id}} onclick="follow(this)">Unfollow</button>
+            {% else %}
+                <button id="btn_follow" value={{u.id}} onclick="follow(this)">Follow</button>
+            {% endif %}
+        </div>
+    {% endfor %}
+    <script>
+        // #new-form's submit event function
+        follow = function(btn) {
+            console.log(btn.value);
+            axios.post(`/follow/${btn.value}`, null)
+                .then(res => {
+                    window.location.href="/follow";
+                })
+                .catch(err => {
+                    console.error(err);
+                });
+        };
+    </script>
 {% endblock %}

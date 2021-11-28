@@ -26,11 +26,11 @@ function convertStrToArray(text) {
         result.push(substr);
     }
     return result;
-};
+}
 
 function convertDateToStr(date) {
     return date.getFullYear() + "." + date.getMonth() + "." + date.getDate() + "." + date.getHours() + ":" + date.getMinutes();
-};
+}
 
 function convertPosts(posts) {
     return posts.map(item => {
@@ -43,9 +43,21 @@ function convertPosts(posts) {
                 }),
         };
     });
-};
+}
 
-async function searchTotal() {
+function convertUsers(users, myFollowings) {
+    myFollowings = myFollowings.map(item => item['dataValues']['id']);
+    console.log(myFollowings);
+    return users.map(item => ({
+        'id': item['dataValues']['id'],
+        'email': item['dataValues']['email'],
+        'name': item['dataValues']['name'],
+        'nick': item['dataValues']['nick'],
+        'following': myFollowings.findIndex(i => i==item['dataValues']['id']) != -1,
+    }));
+}
+
+async function getTotalPosts() {
     return await Post.findAll({
         include: [
             {
@@ -59,7 +71,7 @@ async function searchTotal() {
     });
 }
 
-async function searchExactUser(userNick) {
+async function getPostsByExactUser(userNick) {
     return await Post.findAll({
         include: [
             {
@@ -81,7 +93,7 @@ async function searchExactUser(userNick) {
     });
 }
 
-async function searchLikeUser(userNick) {
+async function getPostsByLikeUser(userNick) {
     return await Post.findAll({
         include: [
             {
@@ -103,7 +115,7 @@ async function searchLikeUser(userNick) {
     });
 }
 
-async function searchExactHashtag(tag) {
+async function getExactHashtag(tag) {
     return await Post.findAll({
         include: [
             {
@@ -125,7 +137,7 @@ async function searchExactHashtag(tag) {
     });
 }
 
-async function searchLikeHashtag(tag) {
+async function getPostsByLikeHashtag(tag) {
     return await Post.findAll({
         include: [
             {
@@ -147,7 +159,7 @@ async function searchLikeHashtag(tag) {
     });
 }
 
-async function searchLikeText(text) {
+async function getPostsByLikeText(text) {
     return await Post.findAll({
         include: [
             {
@@ -172,28 +184,38 @@ async function searchLikeText(text) {
 async function getPostsFromQuery(query) {
     let posts;
     if(!query['search_method']) {
-        posts = await searchTotal();
+        posts = await getTotalPosts();
     }
     else if (query['search_method'] == "exact") {
         if (query['search_type'] == "user") {
-            posts = await searchExactUser(query['search_keyword']);
+            posts = await getPostsByExactUser(query['search_keyword']);
         }
         else if (query['search_type'] == "hashtag") {
-            posts = await searchExactHashtag(query['search_keyword']);
+            posts = await getExactHashtag(query['search_keyword']);
         }
     }
     else if (query['search_method'] == "like") {
         if (query['search_type'] == "user") {
-            posts = await searchLikeUser(query['search_keyword']);
+            posts = await getPostsByLikeUser(query['search_keyword']);
         }
         else if (query['search_type'] == "hashtag") {
-            posts = await searchLikeHashtag(query['search_keyword']);
+            posts = await getPostsByLikeHashtag(query['search_keyword']);
         }
         else if (query['search_type'] == "text") {
-            posts = await searchLikeText(query['search_keyword']);
+            posts = await getPostsByLikeText(query['search_keyword']);
         }
     }
     return convertPosts(posts);
 };
 
-module.exports = { getPostsFromQuery };
+async function getTotalUsers(user) {
+    return convertUsers(await User.findAll({
+        where: [
+            {
+                'id': { [Op.ne]: `${user.id}` },
+            }
+        ],
+    }), await user.getFollowings());
+}
+
+module.exports = { getPostsFromQuery, getTotalUsers };

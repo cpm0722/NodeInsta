@@ -8,7 +8,7 @@ const router = express.Router();
 router.use(async (req, res, next) => {
     res.locals.user = req.user;
     if (res.locals.user) {
-        const user = await User.findOne({ where: { 'email': res.locals.user.email } });
+        const user = await User.findOne({ where: { 'id': req.user.id } });
         res.locals.followers = await user.getFollowers();
         res.locals.followings = await user.getFollowings();
         res.locals.followerCount = res.locals.followers.length;

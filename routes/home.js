@@ -2,7 +2,7 @@ const express = require('express');
 const { User, Post, Image, Hashtag } = require('../models');
 const { db } = require('../models/index');
 const { isLoggedIn, isNotLoggedIn } = require('./middlewares');
-const { getPostsFromQuery } = require('../util');
+const { getPostsFromQuery } = require('../utils');
 
 const router = express.Router();
 
